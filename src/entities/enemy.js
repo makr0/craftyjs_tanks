@@ -55,7 +55,7 @@ Crafty.c("Enemy",{
     shoot: function() {
         this.shoottimer=false;
         Crafty.e("Bullet").setName('bullet')
-        .attr({x:this._x+turret_offset.x,y:this._y+turret_offset.y, lookat:this.lookat,
+        .attr({x:this._x+turret_offset.x,y:this._y+turret_offset.y,startpos:{x:50,y:50}, lookat:this.lookat,
             speed:5,
             power:this.body.power,
             range:this.body.range,

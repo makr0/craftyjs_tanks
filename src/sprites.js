@@ -13,13 +13,34 @@
 Sprites = Backbone.Model.extend({
     defaults: {
         images:{
-            'tank' : {
+            'tank_old' : {
                  'file' : 'web/images/tank.png',
                  'tile' : 1,
+                 'offsets': {
+                    tank_turret: {x:49,y:18}
+                 },
+                 'hitboxes': {
+                    tank_body: [[0,0],[100,0],[100,66],[0,66]]
+                 },
                  'elements': {
-                     tank_body: [0,2,100,66],
-                     tank_turret: [15,71,69,37],
-                     tank_bullet: [142,9,4,4]
+                     tank_body_old: [0,2,100,66],
+                     tank_turret_old: [15,71,69,37],
+                     tank_bullet_old: [142,9,4,4]
+                 }
+            },
+            'tank' : {
+                 'file' : 'web/images/largetank.png',
+                 'tile' : 1,
+                 'offsets': {
+                    tank_turret: {x:41,y:13}
+                 },
+                 'hitboxes': {
+                    tank_body: [[0,0],[57,0],[57,30],[0,30]]
+                 },
+                 'elements': {
+                     tank_body: [0,2,58,32],
+                     tank_turret: [3,34,57,28],
+                     tank_bullet: [1,66,4,4]
                  }
             },
             'enemy' : {

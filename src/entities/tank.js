@@ -1,7 +1,11 @@
 Crafty.c("Tank",{
     init: function(){
         this.requires("2D,Canvas,Collision,tank_body,TankControls,Backbone");
-        var hitbox = new Crafty.polygon([[0,0],[100,0],[100,66],[0,66]]);
+        var sprites = new Sprites(),
+            turret_offset = sprites.get('images')['tank']['offsets']['tank_turret'],
+            hitbox_points = sprites.get('images')['tank']['hitboxes']['tank_body'],
+
+            hitbox = new Crafty.polygon(Crafty.clone(hitbox_points));
         this.origin("center")
         .attr({visible:false})
         .collision(hitbox)
@@ -9,7 +13,6 @@ Crafty.c("Tank",{
             for( index in items ){
                 if(items[index].obj.firedFrom != this ) {
                     this.health-=items[index].obj.power;
-                    console.log(this.health);
                     if( this.health <= 0 ){
                         this.remove();
                         this.turret.destroy();
@@ -19,8 +22,6 @@ Crafty.c("Tank",{
                 }
             }
         });
-
-        turret_offset={x:49,y:18};
 
         this.turret = Crafty.e("2D, Canvas, tank_turret")
             .origin(turret_offset.x,turret_offset.y)
@@ -34,14 +35,14 @@ Crafty.c("Tank",{
             .bind("EnterFrame", function(e) {
                 this.rotation = ~~(Math.atan2(this.lookat.y - this._y-turret_offset.y, this.lookat.x - this._x - turret_offset.x) * (180 / Math.PI)) ;
                 this.rotation+=180;
-                this.x = this.tank._x;
+                this.x = this.tank._x-10;
                 this.y = this.tank._y; 
                
             });
     },
     shoot: function(pos) {
         Crafty.e("Bullet").setName('bullet')
-        .attr({x:this._x+turret_offset.x,y:this._y+turret_offset.y, lookat:pos,
+        .attr({x:this._x+turret_offset.x-17,y:this._y+turret_offset.y-5,startpos:{x:42,y:42},  lookat:pos,
             speed:5,
             power:10,
             range:400,

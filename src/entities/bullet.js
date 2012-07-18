@@ -27,8 +27,8 @@ Crafty.c("Bullet",{
         this.vx = Math.sin(angle);
         this.vy = -Math.cos(angle);
         // start bullet at tip of cannon
-        this.x += this.vx*50;
-        this.y += this.vy*50;
+        this.x += this.vx*this.startpos.x;
+        this.y += this.vy*this.startpos.y;
         this.vx*=this.speed;
         this.vy*=this.speed;
         this.startpos={x:this.x,y:this.y};
