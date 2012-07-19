@@ -7,13 +7,15 @@ Crafty.c("Enemy",{
         .collision(hitbox)
         .onHit('Bullet',function(items){
             for( index in items ){
-                this.health-=items[index].obj.power;
-                if( this.health <= 0 ){
-                    this.remove();
-                    this.turret.destroy();
-                    if(this.shoottimer) clearTimeout(this.shoottimer);
+                if(items[index].obj.firedFrom != this ) {
+                    this.health-=items[index].obj.power;
+                    if( this.health <= 0 ){
+                        this.remove();
+                        this.turret.destroy();
+                        if(this.shoottimer) clearTimeout(this.shoottimer);
+                    }
+                    items[index].obj.explode();
                 }
-                items[index].obj.destroy();
             }
         });
         turret_offset={x:49,y:18};
@@ -32,7 +34,7 @@ Crafty.c("Enemy",{
                     var tank = ent.getEntity(),
                         tankpos={x:tank._x+tank._origin.x,y:tank._y+tank._origin.y},
                         distance=Crafty.math.distance(tankpos.x,tankpos.y,mypos.x,mypos.y);
-                    if(distance < range && tank._visible && (me.x && me.y) ) {
+                    if(distance < range && tank._visible && me.body.active) {
                         range = distance;
                         me.lookat = tankpos;
                         me.hasTarget = true;
@@ -71,16 +73,19 @@ Enemy = BaseEntity.extend({
         'shootspeed': 1000,
         'visible' : true,
         'health' : 10,
-        'range'  : 300
+        'range'  : 300,
+        'active' : false
     },
     initialize: function(){
     	var model = this;
     	var entity = Crafty.e("Enemy");
         entity
             .attr(model.attributes)
-
-            .setName('Enemy '+this.O);
-
+            
+            .setName('Enemy '+entity[0]);
     	model.set({'entity' : entity });
+        entity.timeout(function(){
+            this.attr('active',true);
+        },500);
     }
 });

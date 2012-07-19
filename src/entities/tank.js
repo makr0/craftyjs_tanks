@@ -17,8 +17,7 @@ Crafty.c("Tank",{
                         this.remove();
                         this.turret.destroy();
                     }
-                    items[index].obj.destroy();
-                    
+                    items[index].obj.explode();
                 }
             }
         });

@@ -51,7 +51,14 @@ Sprites = Backbone.Model.extend({
                      enemy_turret: [15,71,69,37],
                      enemy_bullet: [142,9,4,4]
                  }
-            }
+            },
+            'explosion': {
+                 'file' : 'web/images/explosion',
+                 'tile' : 38,
+                 'elements': {
+                     explosion: [0,0]
+                 }
+            },
         }
     },
     initialize: function(){
