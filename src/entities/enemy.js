@@ -1,16 +1,17 @@
 Crafty.c("Enemy",{
     init: function(){
-        this.requires("2D,Canvas,Collision,enemy_body,Backbone");
+        this.requires("2D,Canvas,Collision,Explodable,Healthbar,Backbone,enemy_body");
         var hitbox = new Crafty.polygon([[0,0],[100,0],[100,66],[0,66]]);
         this.origin("center")
         .attr({visible:false})
         .collision(hitbox)
+        .Healthbar()
         .onHit('Bullet',function(items){
             for( index in items ){
                 if(items[index].obj.firedFrom != this ) {
-                    this.health-=items[index].obj.power;
+                    this.attr('health',this.attr('health')-items[index].obj.power);
                     if( this.health <= 0 ){
-                        this.remove();
+                        this.explode();
                         this.turret.destroy();
                         if(this.shoottimer) clearTimeout(this.shoottimer);
                     }
@@ -44,8 +45,9 @@ Crafty.c("Enemy",{
                     this.rotation = ~~(Math.atan2(this.lookat.y - this._y-turret_offset.y, this.lookat.x - this._x - turret_offset.x) * (180 / Math.PI)) ;
                     this.rotation+=180;
                 } else this.rotation=90;
-                this.x = this.body._x;
-                this.y = this.body._y;
+                this.x = this.body._x
+                this.y = this.body._y
+                
                 if( this.hasTarget && !this.shoottimer ) {
                     this.shoottimer = setTimeout($.proxy(this.body.shoot,this),me.body.shootspeed);
                 }
@@ -81,7 +83,6 @@ Enemy = BaseEntity.extend({
     	var entity = Crafty.e("Enemy");
         entity
             .attr(model.attributes)
-            
             .setName('Enemy '+entity[0]);
     	model.set({'entity' : entity });
         entity.timeout(function(){

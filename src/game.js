@@ -58,6 +58,8 @@ window.onload = function() {
     			//when everything is loaded, run the main scene
     			require(elements, function() {	   
     				var elements = [
+				        "src/components/Explodable.js?v="+version+"",
+				        "src/components/Healthbar.js?v="+version+"",
 				        "src/entities/bullet.js?v="+version+"",
 				        "src/entities/wall.js?v="+version+"",
 				        "src/entities/world_bounds.js?v="+version+"",

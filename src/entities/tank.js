@@ -1,6 +1,6 @@
 Crafty.c("Tank",{
     init: function(){
-        this.requires("2D,Canvas,Collision,tank_body,TankControls,Backbone");
+        this.requires("2D,Canvas,Collision,Explodable,Healthbar,TankControls,Backbone,tank_body");
         var sprites = new Sprites(),
             turret_offset = sprites.get('images')['tank']['offsets']['tank_turret'],
             hitbox_points = sprites.get('images')['tank']['hitboxes']['tank_body'],
@@ -9,35 +9,36 @@ Crafty.c("Tank",{
         this.origin("center")
         .attr({visible:false})
         .collision(hitbox)
+        .Healthbar()
         .onHit('Bullet',function(items){
             for( index in items ){
                 if(items[index].obj.firedFrom != this ) {
-                    this.health-=items[index].obj.power;
+                    this.attr('health',this.attr('health')-items[index].obj.power);
                     if( this.health <= 0 ){
-                        this.remove();
                         this.turret.destroy();
+                        this.explode();
                     }
                     items[index].obj.explode();
                 }
             }
         });
 
-        this.turret = Crafty.e("2D, Canvas, tank_turret")
-            .origin(turret_offset.x,turret_offset.y)
-            .attr({x: this._x, y: this._y,lookat:{x:100,x:100},tank:this})
-            .bind('shoot',function(){
-                this.tank.shoot(this.lookat);
-            })
-            .bind('lookat',function(pos){
-                this.lookat=pos;
-            })
-            .bind("EnterFrame", function(e) {
-                this.rotation = ~~(Math.atan2(this.lookat.y - this._y-turret_offset.y, this.lookat.x - this._x - turret_offset.x) * (180 / Math.PI)) ;
-                this.rotation+=180;
-                this.x = this.tank._x-10;
-                this.y = this.tank._y; 
-               
-            });
+        this.turret = Crafty.e("2D, Canvas, tank_turret");
+        
+        this.turret.origin(turret_offset.x,turret_offset.y)
+                   .attr({lookat:{x:100,x:100},tank:this})
+                   .bind('shoot',function(){
+                       this.tank.shoot(this.lookat);
+                   })
+                   .bind('lookat',function(pos){
+                       this.lookat=pos;
+                   })
+                   .bind("EnterFrame", function(e) {
+                       this.rotation = ~~(Math.atan2(this.lookat.y - this._y-turret_offset.y, this.lookat.x - this._x - turret_offset.x) * (180 / Math.PI)) ;
+                       this.rotation+=180;
+                       this.x=this.tank._x-10;
+                       this.y=this.tank._y;
+                   });
     },
     shoot: function(pos) {
         Crafty.e("Bullet").setName('bullet')
