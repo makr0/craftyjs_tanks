@@ -53,7 +53,7 @@ Sprites = Backbone.Model.extend({
                  }
             },
             'explosion': {
-                 'file' : 'web/images/explosion',
+                 'file' : 'web/images/explosion.png',
                  'tile' : 38,
                  'elements': {
                      explosion: [0,0]
