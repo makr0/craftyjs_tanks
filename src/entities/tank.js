@@ -26,7 +26,7 @@ Crafty.c("Tank",{
         this.turret = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", tank_turret");
         
         this.turret.origin(turret_offset.x,turret_offset.y)
-                   .attr({lookat:{x:100,x:100},tank:this})
+                   .attr({lookat:{x:this.x,y:this.y},tank:this})
                    .bind('shoot',function(){
                        this.tank.shoot(this.lookat);
                    })

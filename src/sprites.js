@@ -59,6 +59,14 @@ Sprites = Backbone.Model.extend({
                      explosion: [0,0]
                  }
             },
+            'dungeon': {
+                'file' : "web/images/dungeon.png",
+                'tile' : 32,
+                'elements' : {
+                  floor: [0,1],
+                  wall: [9,0]
+                }
+            }
         }
     },
     initialize: function(){

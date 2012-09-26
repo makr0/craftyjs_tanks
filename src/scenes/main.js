@@ -1,23 +1,31 @@
 Crafty.scene("main", function() {
 
-	var elements = [
-	];
-	
-	//when everything is loaded, run the main scene
-	require(elements, function() {
-		var w = Crafty.viewport.width,
-		    h = Crafty.viewport.height;
-		sc.add( new WorldBounds());
-		sc.add( new Tank({x: 400, y: 100,rotation: 90,vr:2,speed:4,controller: 'right',health:100}) );
-		sc.add( new Tank({x: 100, y: 100,rotation: 90,vr:2,speed:4,controller: 'left',health:100}) );
-		for(var i=1;i<w;i+=200) {
-			sc.add( new Enemy({x: i, y: 700,rotation: -90,range:200,power:10,shootspeed:1000,health:100}) );
-		}
-		for(var i=100;i<w-200;i+=200) {
-			sc.add( new Enemy({x: i, y: 600,rotation: -90,range:400,power:1,shootspeed:200,health:20}) );
-		}
-		sc.add( new Enemy({x: w/2-100, y: h/2-100,rotation: -90,range:400,power:1,shootspeed:200,health:100}) );
 
-	});
+	//when everything is loaded, run the main scene
+	function populateLevel(monsters) {
+		var w = Crafty.viewport.width,
+		    h = Crafty.viewport.height,
+		    controller;
+		_.each(monsters,function(data){
+			switch(data.name) {
+				case 'L': makePlayer(data,'left');break;
+				case 'R': makePlayer(data,'right');break;
+				default: makeEnemy(data);
+			}
+		});
+	}
+
+	function makePlayer(data, controller ) {
+		sc.add( new Tank({x: data.x, y: data.y,rotation: 90,vr:2,speed:4,controller: controller,health:100}) );
+	}
+
+	function makeEnemy(data) {
+		if( data.name == '-')
+			sc.add( new Enemy({x: data.x, y: data.y,rotation: 180,range:200,power:10,shootspeed:1000,health:100}) );
+		if( data.name == 'I')
+			sc.add( new Enemy({x: data.y, y: data.y,rotation: -90,range:400,power:1,shootspeed:200,health:20}) );
+	}
+
+	loadMap('level1.txt',populateLevel);
 
 });

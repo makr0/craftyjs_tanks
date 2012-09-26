@@ -27,6 +27,7 @@ window.onload = function() {
 	require([
 	         "src/sprites.js?v="+version+"",
 	         "src/config.js?v="+version+"",
+	         "src/loadmap.js?v="+version+"",
 	], function() {
 		// Create Sprites
 		var sprites = new Sprites();
@@ -52,12 +53,12 @@ window.onload = function() {
                 var elements = [
                     "src/entities/base/BaseEntity.js?v="+version+"",
                     "src/components/Backbone.js?v="+version+""
-			        
 	    		];
 
     			//when everything is loaded, run the main scene
     			require(elements, function() {	   
     				var elements = [
+				        "src/loadmap.js?v="+version+"",    				
 				        "src/components/Explodable.js?v="+version+"",
 				        "src/components/Healthbar.js?v="+version+"",
 				        "src/entities/bullet.js?v="+version+"",
@@ -65,7 +66,7 @@ window.onload = function() {
 				        "src/entities/world_bounds.js?v="+version+"",
 				        "src/entities/tank_controls.js?v="+version+"",
 				        "src/entities/tank.js?v="+version+"",
-				        "src/entities/enemy.js?v="+version+""
+				        "src/entities/enemy.js?v="+version+"",
 		    		];
     				require(elements, function() {
     					loadingText.destroy();
