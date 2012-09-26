@@ -1,6 +1,6 @@
 Crafty.c("Tank",{
     init: function(){
-        this.requires("2D,Canvas,Collision,Explodable,Healthbar,TankControls,Backbone,tank_body");
+        this.requires("2D,"+gameContainer.conf.get('renderType')+",Collision,Explodable,Healthbar,TankControls,Backbone,tank_body");
         var sprites = new Sprites(),
             turret_offset = sprites.get('images')['tank']['offsets']['tank_turret'],
             hitbox_points = sprites.get('images')['tank']['hitboxes']['tank_body'],
@@ -23,7 +23,7 @@ Crafty.c("Tank",{
             }
         });
 
-        this.turret = Crafty.e("2D, Canvas, tank_turret");
+        this.turret = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", tank_turret");
         
         this.turret.origin(turret_offset.x,turret_offset.y)
                    .attr({lookat:{x:100,x:100},tank:this})

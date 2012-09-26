@@ -1,6 +1,6 @@
 Crafty.c("Bullet",{
     init: function(){
-        this.requires("2D,Canvas,Collision,tank_bullet,Explodable")
+        this.requires("2D,"+gameContainer.conf.get('renderType')+", Collision,tank_bullet,Explodable")
             .collision([0,0],[4,0],[4,4],[0,4])
             .onHit('Tank',function(item){
                 if(item[0].obj != this.firedFrom )

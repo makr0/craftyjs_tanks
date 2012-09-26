@@ -1,6 +1,6 @@
 Crafty.c("Enemy",{
     init: function(){
-        this.requires("2D,Canvas,Collision,Explodable,Healthbar,Backbone,enemy_body");
+        this.requires("2D,"+gameContainer.conf.get('renderType')+",Collision,Explodable,Healthbar,Backbone,enemy_body");
         var hitbox = new Crafty.polygon([[0,0],[100,0],[100,66],[0,66]]);
         this.origin("center")
         .attr({visible:false})
@@ -21,7 +21,7 @@ Crafty.c("Enemy",{
         });
         turret_offset={x:49,y:18};
 
-        this.turret = Crafty.e("2D, Canvas, enemy_turret")
+        this.turret = Crafty.e("2D, "+gameContainer.conf.get('renderType')+", enemy_turret")
             .origin(turret_offset.x,turret_offset.y)
             .attr({x: this._x, y: this._y,lookat:this.lookat,body:this})
             .bind("EnterFrame", function(e) {
